@@ -20,9 +20,8 @@ export default class ProductDetails {
       cart = cartFromLocalStorage;
     }
     cart.push(this.product);
-    console.log(cartFromLocalStorage);
-    console.log(typeof cartFromLocalStorage);
     setLocalStorage('so-cart', cart);
+    window.location.reload();
   }
   renderProductDetails() {
     return `<section class="product-detail"> <h3>${this.product.Brand.Name}</h3>

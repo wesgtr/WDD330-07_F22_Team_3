@@ -1,17 +1,23 @@
-
 function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
+}
+
+function setLocalStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
 function getCartContents() {
   let markup = '';
   const cartItems = getLocalStorage('so-cart');
-  if (cartItems) {
+  console.log('UDISK', cartItems)
+  if (cartItems.length) {
     const htmlItems = cartItems.map((item) => renderCartItem(item));
     document.querySelector('.product-list').innerHTML = htmlItems.join('');
-  } else {
-    document.querySelector('.product-list').innerHTML = '<li>Cart is empty!</li>';
+    return;
   }
+
+  document.querySelector('.product-list').innerHTML = '<li>Cart is empty!</li>';
+
   // document.querySelector('.product-list').innerHTML = renderCartItem(cartItems);
 }
 
@@ -50,21 +56,38 @@ function rederCartNumberOfItems () {
 
 function renderCartItem(item) {
   const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
-    <img
-      src="${item.Image}"
-      alt="${item.Name}"
-    />
-  </a>
-  <a href="#">
-    <h2 class="card__name">${item.Name}</h2>
-  </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: 1</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
-</li>`;
+    <a href="#" class="cart-card__image">
+      <img
+        src="${item.Image}"
+        alt="${item.Name}"
+      />
+    </a>
+    <a href="#">
+      <h2 class="card__name">${item.Name}</h2>
+    </a>
+    <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+    <div>
+      <span data-id="${item.Id}" id="removeFromCart" type="button" onclick="removeItemFromCart()">X</span>
+      <p class="cart-card__quantity">qty: 1</p>
+    </div>
+   
+    <p class="cart-card__price">$${item.FinalPrice}</p>
+  </li>`;
   // console.log(newItem);
   return newItem;
+}
+
+function removeItemFromCart() {
+  var element = document.getElementById('removeFromCart');
+  var removeditemId = element.getAttribute('data-id');
+
+  let cart = [];
+  let cartFromLocalStorage = getLocalStorage('so-cart');
+  if (cartFromLocalStorage) {
+    cart = cartFromLocalStorage.filter(item => item.Id !== removeditemId);
+  }
+  setLocalStorage('so-cart', cart);
+  this.window.location.reload();
 }
 
 if (window.location.pathname == '/cart.html') {
@@ -72,3 +95,6 @@ if (window.location.pathname == '/cart.html') {
 };
 
 rederCartNumberOfItems();
+
+// document.getElementById('removeFromCart')
+//   .addEventListener('click', removeItemFromCart());
