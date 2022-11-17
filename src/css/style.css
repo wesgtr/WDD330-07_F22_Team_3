@@ -160,7 +160,7 @@ button {
   border: 1px solid var(--light-grey);
   max-width: 250px;
 }
-.retail-price {
+.discount-card__price {
   color: red;
   text-decoration: line-through
 }

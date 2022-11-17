@@ -1,27 +1,28 @@
-import { setLocalStorage, getLocalStorage } from './utils.js';
+import { setLocalStorage, getLocalStorage, loadHeaderFooter } from './utils.js';
 
+loadHeaderFooter();
 export default class ProductDetails {
   constructor(productId, dataSource){
     this.productId = productId;
     this.product = {};
     this.dataSource = dataSource;
-
   }
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
     document.querySelector('main').innerHTML = this.renderProductDetails();
+
     document.getElementById('addToCart')
       .addEventListener('click', this.addToCart.bind(this));
   }
   addToCart() {
-    let cart = [];
-    let cartFromLocalStorage = getLocalStorage('so-cart');
-    if (cartFromLocalStorage) {
-      cart = cartFromLocalStorage;
+    let cartContents = getLocalStorage('so-cart');
+
+    if(!cartContents){
+      cartContents = [];
     }
-    cart.push(this.product);
-    setLocalStorage('so-cart', cart);
-    window.location.reload();
+
+    cartContents.push(this.product);
+    setLocalStorage('so-cart', cartContents);
   }
   renderProductDetails() {
     return `<section class="product-detail"> <h3>${this.product.Brand.Name}</h3>
@@ -32,9 +33,9 @@ export default class ProductDetails {
       alt="${this.product.NameWithoutBrand}"
     />
     <div class="price-block">
-          <p class="product-card__price retail-price">$${this.product.SuggestedRetailPrice}</p>
-          <p class="discount-card__price">$${this.product.FinalPrice}</p>
-        </div>
+      <p class="discount-card__price">$${this.product.SuggestedRetailPrice}</p>
+      <p class="product-card__price">$${this.product.FinalPrice}</p>
+    </div>
     <p class="product__color">${this.product.Colors[0].ColorName}</p>
     <p class="product__description">
     ${this.product.DescriptionHtmlSimple}
