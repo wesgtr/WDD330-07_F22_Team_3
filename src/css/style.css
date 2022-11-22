@@ -109,6 +109,39 @@ button {
   fill: gray;
 }
 
+/* product grid styles */
+.product-grid {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  color: var(--dark-grey);
+  padding-left: 0;
+}
+
+.product-grid > li {
+  width: 150px;
+  /* border: 1px solid var(--light-grey); */
+  padding: 0.5em;
+  margin: 1em;
+}
+.product-grid h2 {
+  margin: 0;
+
+  font-size: 1.2em;
+}
+.product-grid a {
+  text-decoration: none;
+}
+.product-grid a:link,
+.product-grid a:visited {
+  color: var(--dark-grey);
+}
+.product-grid a:hover {
+  text-decoration: underline;
+}
+
 .number-of-items {
   width: 18px;
   height: 18px;
@@ -136,6 +169,9 @@ button {
 .products {
   padding: 0.5em;
 }
+.title {
+  text-transform: capitalize;
+}
 .product-list {
   display: flex;
   flex-flow: row wrap;
@@ -159,6 +195,7 @@ button {
   padding: 0.5em;
   border: 1px solid var(--light-grey);
   max-width: 250px;
+  text-align: center;
 }
 .discount-card__price {
   color: red;
