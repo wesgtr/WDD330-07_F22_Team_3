@@ -6,8 +6,8 @@ function convertToText(res) {
   }
 }
 
-export function qs(selector) {
-  return document.querySelector(selector);
+export function qs(selector, parent = document) {
+  return parent.querySelector(selector);
 }
 
 export function getLocalStorage(key) {
@@ -66,3 +66,4 @@ export async function loadHeaderFooter() {
   renderWithTemplate(header, headerElement);
   renderWithTemplate(footer, footerElement);
 }
+
